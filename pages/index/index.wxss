@@ -31,7 +31,12 @@ page {
   height: 100%;
 }
 
-
+.player {
+  background: #222;
+  border: 1px #222 solid;
+  border-radius: 100rpx 100rpx 100rpx 100rpx;
+  height: 112rpx;
+}
 
 .tab-item.active {
   color: rgb(246, 244, 251);
@@ -188,7 +193,7 @@ page {
 .content-play-info {
   /* color: #888; */
   font-size: 12pt;
-  margin-top: 3%;
+  margin-top: 40rpx;
 }
 
 .content-play-info > view {
@@ -204,10 +209,6 @@ page {
   align-items: center;
   height: 112rpx;
   width: 96%;
-  background: #222;
-  border: 1px #222 solid;
-  border-radius: 100rpx 100rpx 100rpx 100rpx;
-  height: 112rpx;
 
   /* 毛玻璃终极效果 */
   background: rgba(0, 0, 0, 0.1);
@@ -230,6 +231,8 @@ page {
   height: 100rpx;
   border-radius: 100%;
   border: 2px solid rgb(8, 10, 10);
+  margin-left: 56rpx;
+  margin-top: 108.6rpx;
 
   /* 核心：图片填满整个圆圈 */
   object-fit: cover;
@@ -249,9 +252,9 @@ page {
   flex: 1;
   font-size: 30rpx;
   line-height: 38rpx;
-  margin-left: 20rpx;
-  padding-bottom: 8rpx;
-  padding-top: 1%;
+  margin-left: -33rpx;
+  margin-top: 5rpx;
+  /* padding-bottom: 8rpx; */
 }
 
 .player-info-title {
@@ -270,7 +273,6 @@ page {
   width: 60rpx;
   height: 60rpx;
   margin-right: 30rpx;
-  margin-top: 2%;
 }
 
 /* 播放器页面专用底部播放器 */
@@ -278,62 +280,270 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
-  align-self: center;
-  height: 130rpx;
-  width: 96%;
-  background: rgba(104, 104, 104, 0.1);
-  backdrop-filter: blur(15rpx) saturate(180%);
-  -webkit-backdrop-filter: blur(30rpx) saturate(180%);
-  border-radius: 100rpx;
-  border: 3rpx solid rgba(255, 255, 255, 0.45);
-  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.2);
-  /* margin: auto; */
+  height: 120rpx;
+  width: 90%;
+  left: 5.5%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(25rpx) saturate(180%);
+  -webkit-backdrop-filter: blur(25rpx) saturate(180%);
+  border-radius: 60rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15),
+              inset 0 1rpx 0 rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
   z-index: 10;
   position: fixed;
-  bottom: 76rpx;
+  bottom: 25rpx;
   pointer-events: auto;
 }
 
-.player-page-controls image {
-  width: 80rpx;
-  height: 80rpx;
-  margin: 0 30rpx;
+/* 播放器控制遮罩层 */
+.player-controls-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
+/* 播放模式按钮 */
 .play-mode-btn {
-  width: 80rpx;
-  height: 80rpx;
+  width: 70rpx;
+  height: 70rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10rpx;
+  margin-right: 30rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.play-mode-btn:active,
+.play-mode-btn.active {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 15rpx rgba(255, 255, 255, 0.3);
+}
+
+.play-mode-btn.active image {
+  opacity: 1;
 }
 
 .play-mode-btn image {
-  width: 60rpx;
-  height: 60rpx;
+  width: 40rpx;
+  height: 40rpx;
   margin: 0;
+  opacity: 0.85;
 }
 
-/* 播放列表 */
+/* 播放模式下拉菜单 */
+.play-mode-menu {
+  position: absolute;
+  bottom: 130rpx;
+  left: 20rpx;
+  width: 200rpx;
+  background: transparent;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.3);
+  padding: 10rpx 0;
+  opacity: 0;
+  transform: translateY(20rpx);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
 
+.play-mode-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.play-mode-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 25rpx;
+  transition: all 0.2s ease;
+}
+
+.play-mode-item:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.play-mode-item.active {
+  color: #fff;
+  border-radius: 25rpx;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.play-mode-item image {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 15rpx;
+  opacity: 0.8;
+}
+
+.play-mode-item.active image {
+  opacity: 1;
+}
+
+.play-mode-item text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.play-mode-item.active text {
+  color: #fff;
+}
+
+/* 上一首/下一首按钮 */
+.prev-btn, .next-btn {
+  width: 50rpx;
+  height: 50rpx;
+  margin: 0 25rpx;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.prev-btn {
+  transform: rotate(180deg);
+}
+
+.prev-btn:active, .next-btn:active {
+  opacity: 1;
+  transform: scale(0.95);
+}
+
+.prev-btn:active {
+  transform: rotate(180deg) scale(0.95);
+}
+
+/* 播放/暂停按钮 - 突出显示 */
+.play-btn {
+  width: 60rpx;
+  height: 60rpx;
+  margin: 0 30rpx;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.play-btn:active {
+  transform: scale(0.95);
+}
+
+/* 歌词切换按钮 */
+.lyric-toggle-btn {
+  width: 70rpx;
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.lyric-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 15rpx rgba(255, 255, 255, 0.3);
+}
+
+.lyric-toggle-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+}
+
+.lyric-toggle-btn.active:active {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.lyric-toggle-btn image {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.lyric-toggle-btn.active image {
+  opacity: 1;
+}
+
+/* 显示专辑页面样式 */
+
+.content-play-cover {
+  margin-top: 30rpx;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: 500rpx;
+  height: 500rpx;
+}
+
+.vinyl-record {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 50%, #1a1a1a 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 60rpx rgba(0, 0, 0, 0.5);
+}
+
+.vinyl-record::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 85%;
+  background: repeating-radial-gradient(
+    circle at center,
+    #111 0rpx,
+    #111 2rpx,
+    #1a1a1a 3rpx,
+    #1a1a1a 4rpx
+  );
+  border-radius: 50%;
+}
+
+.vinyl-record::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 30%;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 20rpx rgba(0, 0, 0, 0.5);
+}
 
 .content-play-cover image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   animation: rotateImage 10s linear infinite;
-  width: 400rpx;
-  height: 400rpx;
-  border-radius: 100%;
-  border: 1px solid #333;
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.3);
 }
 
 @keyframes rotateImage {
   from {
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-
   to {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
@@ -342,9 +552,10 @@ page {
 .content-play-progress {
   display: flex;
   align-items: center;
-  margin: 0 35rpx;
+  margin: -50rpx 35rpx 0;
   font-size: 9pt;
   text-align: center;
+  height: 140rpx;
 }
 
 .content-play-progress > view {
@@ -426,8 +637,7 @@ page {
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: -10;
-  /* 模糊+深色渐变蒙层，防止颜色太刺眼 */
-  filter: blur(25rpx) brightness(0.7);
-  opacity: 0.85;
+  z-index: -1;
+  filter: blur(25rpx);
+  opacity: 1;
 }

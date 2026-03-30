@@ -22,11 +22,18 @@ Page({
     playMode: 'sequence',
     playModeIcon: '顺序播放', // 播放模式图标名称
 
+    // 是否显示歌词
+    showLyric: true,
+    showLyricIcon: '歌词', // 歌词图标名称
+
+    // 是否显示播放模式菜单
+    showPlayModeMenu: false,
+
     playlist: [{
       id: 1,
       title: '爱就一个字',
       singer: '张信哲',
-      src: 'https://music.gdstudio.org/cache/1167460613.256.m4a',
+      src: 'http://localhost:3000/music/Jeff Chang - 愛就一個字.m4a',
       coverImgUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/9b/84/7c/9b847cfa-fb3e-7ed0-fa67-2180a0c409ba/4716331013621.jpg/300x300bb.jpg',
       lrcUrl: 'http://localhost:3000/lrc/1167460613.lrc'
     }, {
@@ -128,29 +135,6 @@ rgbToHex(r,g,b){
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 },
 
-setMusic: function(index) {
-  var music = this.data.playlist[index]
-  this.audioCtx.src = music.src
-  this.getNetLrc(music.lrcUrl || '')
-
-  this.setData({
-    playIndex: index,
-    'play.title': music.title,
-    'play.singer': music.singer,
-    'play.coverImgUrl': music.coverImgUrl,
-    'play.currentTime': '00:00',
-    'play.duration': '00:00',
-    'play.percent': 0
-  });
-
-  // ========= 自动提取封面主色更新背景 =========
-  this.getCoverMainColor(music.coverImgUrl).then(color=>{
-    this.setData({
-      bgMainColor: color
-    })
-  })
-},
-
   // 网络请求歌词
   getNetLrc(lrcUrl) {
     if (!lrcUrl) {
@@ -216,14 +200,22 @@ setMusic: function(index) {
   },
 
   changeItem: function(e) {
-    this.setData({ item: e.target.dataset.item })
+    var targetItem = parseInt(e.target.dataset.item);
+    console.log('changeItem called, targetItem:', targetItem, 'current item:', this.data.item, 'type:', typeof targetItem, typeof this.data.item);
+    if (targetItem === this.data.item) {
+      console.log('Same item, returning');
+      return;
+    }
+    console.log('Setting item to:', targetItem);
+    this.setData({ item: targetItem })
   },
 
   changeTab: function(e) {
-    this.setData({ 
+    console.log('changeTab called, current:', e.detail.current, 'item:', this.data.item);
+    this.setData({
       tab: e.detail.current,
       item: e.detail.current
-    })
+    });
   },
 
   audioCtx: null,
@@ -237,7 +229,12 @@ setMusic: function(index) {
     })
 
     this.audioCtx.onEnded(function() {
-      that.next()
+      if (that.data.playMode === 'single') {
+        that.audioCtx.seek(0);
+        that.audioCtx.play();
+      } else {
+        that.next();
+      }
     })
 
     this.audioCtx.onTimeUpdate(function() {
@@ -305,6 +302,10 @@ setMusic: function(index) {
       'play.duration': '00:00',
       'play.percent': 0
     });
+
+    this.getCoverMainColor(music.coverImgUrl).then(color => {
+      this.setData({ bgMainColor: color })
+    })
   },
 
   play: function() {
@@ -320,13 +321,12 @@ setMusic: function(index) {
   next: function() {
     var index;
     if (this.data.playMode === 'random') {
-      // 随机播放
-      index = Math.floor(Math.random() * this.data.playlist.length);
+      do {
+        index = Math.floor(Math.random() * this.data.playlist.length);
+      } while (index === this.data.playIndex && this.data.playlist.length > 1);
     } else if (this.data.playMode === 'single') {
-      // 单曲循环
-      index = this.data.playIndex;
+      index = this.data.playIndex >= this.data.playlist.length - 1 ? 0 : this.data.playIndex + 1;
     } else {
-      // 顺序播放
       index = this.data.playIndex >= this.data.playlist.length - 1 ? 0 : this.data.playIndex + 1;
     }
     this.setMusic(index)
@@ -335,7 +335,16 @@ setMusic: function(index) {
 
   // 上一首
   prev: function() {
-    var index = this.data.playIndex <= 0 ? this.data.playlist.length - 1 : this.data.playIndex - 1
+    var index;
+    if (this.data.playMode === 'random') {
+      do {
+        index = Math.floor(Math.random() * this.data.playlist.length);
+      } while (index === this.data.playIndex && this.data.playlist.length > 1);
+    } else if (this.data.playMode === 'single') {
+      index = this.data.playIndex <= 0 ? this.data.playlist.length - 1 : this.data.playIndex - 1;
+    } else {
+      index = this.data.playIndex <= 0 ? this.data.playlist.length - 1 : this.data.playIndex - 1;
+    }
     this.setMusic(index)
     if (this.data.state === 'running') this.play()
   },
@@ -350,6 +359,45 @@ setMusic: function(index) {
       playMode: modes[nextIndex],
       playModeIcon: modeNames[nextIndex]
     });
+  },
+
+  // 切换歌词显示
+  toggleLyric: function() {
+    this.setData({
+      showLyric: !this.data.showLyric
+    });
+  },
+
+  // 切换播放模式菜单显示
+  togglePlayModeMenu: function() {
+    this.setData({
+      showPlayModeMenu: !this.data.showPlayModeMenu
+    });
+  },
+
+  closePlayModeMenu: function() {
+    if (this.data.showPlayModeMenu) {
+      this.setData({
+        showPlayModeMenu: false
+      });
+    }
+  },
+
+  // 选择播放模式
+  selectPlayMode: function(e) {
+    const mode = e.currentTarget.dataset.mode;
+    const modeNames = { 'sequence': '顺序播放', 'random': '随机播放', 'single': '单曲循环' };
+    this.setData({
+      playMode: mode,
+      playModeIcon: modeNames[mode],
+      showPlayModeMenu: false
+    });
+  },
+
+  // 阻止事件冒泡
+  preventBubble: function(e) {
+    console.log('preventBubble called on page:', this.data.item);
+    e.stopPropagation && e.stopPropagation();
   },
 
   sliderChange: function(e) {

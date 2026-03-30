@@ -1,9 +1,12 @@
 <!-- 白色背景黑色标题 + 返回键 -->
 <custom-nav title="Music Player" bgColor="#17181a" titleColor="#ffffff" style="font-family: 'Times New Roman', Times, serif;"></custom-nav>
 
+<!-- 全局模糊渐变背景层 -->
+<view class="bg-blur" wx:if="{{item === 1}}" style="background: {{bgMainColor}};"></view>
+
 <!-- 内容区域 -->
 <view class="content">
-  <swiper current="{{item}}" bindchange="changeTab">
+  <swiper current="{{item}}" catchtap="preventBubble" bindchange="changeTab" enhanced="{{false}}" snapToEdge="{{false}}">
     <swiper-item>
       <!-- 内容滚动区域 -->
       <scroll-view class="content-info" scroll-y>
@@ -127,41 +130,44 @@
       <include src="playlist.wxml" />
     </swiper-item>
   </swiper>
-</view>
-
-<!-- 底部播放器 -->
-<view class="player" wx:if="{{item !== 1}}">
+  <!-- 底部播放器 -->
+<view class="player" wx:if="{{item === 0 || item === 2}}" catchtap="preventBubble">
   <image class="player-cover" src="{{play.coverImgUrl}}" style="animation-play-state: {{state}};"
-  bindtap="play" />
+  catchtap="play" />
   <view class="player-info">
     <view class="player-info-title">{{play.title}}</view>
     <view class="player-info-singer">{{play.singer}}</view>
   </view>
   <view class="player-controls">
     <!-- 切换到播放列表 -->
-    <image src="/images/播放列表.svg"  bindtap="changeItem" data-item="2" />
+    <image src="/images/播放列表.svg"  catchtap="changeItem" data-item="2" />
     <!-- 播放或暂停 -->
-    <image wx:if="{{state=='paused'}}" src="/images/播放.svg" bindtap="play" />
-    <image wx:else src="/images/暂停.svg" bindtap="pause" />
+    <image wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" />
+    <image wx:else src="/images/暂停.svg" catchtap="pause" />
     <!-- 下一曲 -->
-    <image src="/images/icon_下一首.svg" bindtap="next" />
+    <image src="/images/icon_下一首.svg" catchtap="next" />
   </view>
+</view>
 </view>
 
-<!-- 播放器页面专用底部播放器 -->
-<view class="player-page-controls" wx:else>
-  <!-- 播放模式按钮 -->
-  <view class="play-mode-btn" bindtap="togglePlayMode">
-    <image src="/images/{{playModeIcon}}.svg" />
+<!-- 底部播放器 -->
+<!-- <view class="player" wx:if="{{item === 0 || item === 2}}" catchtap="preventBubble">
+  <image class="player-cover" src="{{play.coverImgUrl}}" style="animation-play-state: {{state}};"
+  catchtap="play" />
+  <view class="player-info">
+    <view class="player-info-title">{{play.title}}</view>
+    <view class="player-info-singer">{{play.singer}}</view>
   </view>
-  <!-- 上一首 -->
-  <image src="/images/icon_下一首.svg" bindtap="prev" style="transform: rotate(180deg);"/>
-  <!-- 播放或暂停 -->
-  <image wx:if="{{state=='paused'}}" src="/images/播放.svg" bindtap="play" />
-  <image wx:else src="/images/暂停.svg" bindtap="pause" />
-  <!-- 下一首 -->
-  <image src="/images/icon_下一首.svg" bindtap="next" />
-</view>
+  <view class="player-controls">
+    切换到播放列表 -->
+    <!-- <image src="/images/播放列表.svg"  catchtap="changeItem" data-item="2" /> -->
+    <!-- 播放或暂停 -->
+    <!-- <image wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" />
+    <image wx:else src="/images/暂停.svg" catchtap="pause" /> -->
+    <!-- 下一曲 -->
+    <!-- <image src="/images/icon_下一首.svg" catchtap="next" /> -->
+  <!-- </view> -->
+<!-- </view> -->
 
 <!-- 标签页标题 -->
 <view class="tab">

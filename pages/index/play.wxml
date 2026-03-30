@@ -1,5 +1,5 @@
 <!-- 播放器 -->
-<view class="content-play">
+<view class="content-play" catchtap="closePlayModeMenu">
   <!-- 显示音乐信息 -->
   <view class="content-play-info">
     <text>{{play.title}}</text>
@@ -7,23 +7,21 @@
   </view>
   <!-- 显示专辑封面 -->
   <view class="content-play-cover">
+    <view class="vinyl-record"></view>
     <image src="{{play.coverImgUrl}}" style="animation-play-state:{{state}}" />
   </view>
 
   <!-- 隐藏取色用的画布 必须存在 -->
 <canvas type="2d" id="colorCanvas" style="width:0;height:0;position:fixed;z-index:-999;"></canvas>
 
-<!-- 全局模糊渐变背景层 -->
-<view class="bg-blur" style="background: {{bgMainColor}};"></view>
-
   <!-- 歌词区域 -->
-  <scroll-view 
-    scroll-y 
-    scroll-top="{{scrollTop}}" 
+  <scroll-view wx:if="{{showLyric}}"
+    scroll-y
+    scroll-top="{{scrollTop}}"
     style="height:250px; text-align:center;"
     scroll-with-animation
   >
-    <view wx:for="{{lyricList}}" wx:key="time" 
+    <view wx:for="{{lyricList}}" wx:key="time"
       style="height:{{lineHeight}}px; line-height:{{lineHeight}}px;"
       class="lyric-item {{currentIndex===index ? 'active' : ''}}"
     >
@@ -37,5 +35,39 @@
       <slider bindchange="sliderChange" activeColor="rgb(230, 230, 230)" block-size="12" backgroundColor="#666" value="{{play.percent}}" />
     </view>
     <text>{{play.duration}}</text>
+  </view>
+
+  <!-- 播放器页面专用底部播放器 -->
+  <view class="player-page-controls">
+    <!-- 播放模式按钮 -->
+    <view class="play-mode-btn {{showPlayModeMenu ? 'active' : ''}}" catchtap="togglePlayModeMenu">
+      <image src="/images/{{playModeIcon}}.svg" />
+    </view>
+    <!-- 播放模式下拉菜单 -->
+    <view class="play-mode-menu {{showPlayModeMenu ? 'show' : ''}}" style="background-color: {{bgMainColor}};">
+      <view class="play-mode-item {{playMode === 'sequence' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="sequence">
+        <image src="/images/顺序播放.svg" />
+        <text>顺序播放</text>
+      </view>
+      <view class="play-mode-item {{playMode === 'random' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="random">
+        <image src="/images/随机播放.svg" />
+        <text>随机播放</text>
+      </view>
+      <view class="play-mode-item {{playMode === 'single' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="single">
+        <image src="/images/单曲循环.svg" />
+        <text>单曲循环</text>
+      </view>
+    </view>
+    <!-- 上一首 -->
+    <image class="prev-btn" src="/images/icon_下一首.svg" catchtap="prev" />
+    <!-- 播放或暂停 -->
+    <image class="play-btn" wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" />
+    <image class="play-btn" wx:else src="/images/暂停.svg" catchtap="pause" />
+    <!-- 下一首 -->
+    <image class="next-btn" src="/images/icon_下一首.svg" catchtap="next" />
+    <!-- 歌词切换 -->
+    <view class="lyric-toggle-btn {{showLyric ? 'active' : ''}}" catchtap="toggleLyric">
+      <image src="/images/歌词.svg" />
+    </view>
   </view>
 </view>
