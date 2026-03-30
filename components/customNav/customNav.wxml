@@ -1,0 +1,18 @@
+<!-- 固定悬浮导航栏 -->
+<view class="custom-nav" style="top:0;background:{{bgColor}};padding-top:{{statusBarHeight}}px;height:{{navHeight}}px;">
+  <!-- 左侧返回按钮 -->
+  <view wx:if="{{showBack}}" class="back-btn" bindtap="goBack">
+    <image src="/images/back.png" mode="widthFix"></image>
+  </view>
+
+  <!-- 中间标题 -->
+  <view class="nav-title" style="color:{{titleColor}}">{{title}}</view>
+
+  <!-- 右侧插槽自定义内容 -->
+  <view class="nav-right">
+    <slot></slot>
+  </view>
+</view>
+
+<!-- 占位防止页面内容被遮挡 -->
+<view style="height:{{navHeight}}px;"></view>

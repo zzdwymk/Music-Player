@@ -1,0 +1,171 @@
+<!-- 白色背景黑色标题 + 返回键 -->
+<custom-nav title="Music Player" bgColor="#17181a" titleColor="#ffffff" style="font-family: 'Times New Roman', Times, serif;"></custom-nav>
+
+<!-- 内容区域 -->
+<view class="content">
+  <swiper current="{{item}}" bindchange="changeTab">
+    <swiper-item>
+      <!-- 内容滚动区域 -->
+      <scroll-view class="content-info" scroll-y>
+        <!-- 轮播图 -->
+        <view class="slide-wrapper">
+          <swiper class="content-info-slide" indicator-color="rgba(255,255,255,.5)" indicator-active-color="#fff" indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="3000" duration="500" bindchange="swiperChange">
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79215289151/5434/6542/a241/e89b93631a5b17f9c839a49742d4a70c.jpg?imageView&quality=89" /></swiper-item>
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79216117326/f81f/e9b7/34b8/adb62865c45586beeb47c6524a9066c1.png?imageView&quality=89" /></swiper-item>
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79214370814/5670/8205/8601/24f0307da154b06103e2389d887c963c.jpg?imageView&quality=89" /></swiper-item>
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79214379668/333c/0ac6/1167/5b4df875ec0e24f62831366244d6ef1b.jpg?imageView&quality=89" /></swiper-item>
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79214422826/2cf6/dc19/e600/90a998ec0e09cf2cb9449427bd8a772d.jpg?imageView&quality=89" /></swiper-item>
+            <swiper-item><image src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79152241154/7f07/5a05/e628/81ebc9c8a51b0c4502889da7f7eea524.jpg?imageView&quality=89" /></swiper-item>
+          </swiper>
+          
+          <!-- 3D滚轮容器 视口裁切 -->
+          <view class="dot-view">
+            <view class="dot-track" style="transform: translateX({{moveX}}rpx);transition: transform 0.25s ease">
+              <view 
+                wx:for="{{totalLen}}" 
+                wx:key="idx"
+                class="dot-item"
+                style="transform:scale({{getScale(index)}});background:{{current===index?'#ffffff':'rgba(255,255,255,0.3)'}};box-shadow:{{current===index?'0 0 8rpx rgba(255,255,255,0.8)':'none'}};"
+              ></view>
+            </view>
+          </view>
+        </view>
+      
+        <!-- 功能按钮 -->
+        <view class="content-info-portal">
+          <view>
+            <image src="/images/排行榜.svg" />
+            <text>排行榜</text>
+          </view>
+          <view>
+            <image src="/images/磁带.svg" />
+            <text>经典</text>
+          </view>
+          <view>
+            <image src="/images/中文1.svg" />
+            <text>华语</text>
+          </view>
+          <view>
+            <image src="/images/粤语.svg" />
+            <text>粤语</text>
+          </view>
+        </view>
+        <view class="content-info-portal">
+          <view>
+            <image src="/images/歌单.svg" />
+            <text>歌单</text>
+          </view>
+          <view>
+            <image src="/images/情歌.svg" />
+            <text>情歌</text>
+          </view>
+          <view>
+            <image src="/images/日语.svg" />
+            <text>日语</text>
+          </view>
+          <view>
+            <image src="/images/OST.png" />
+            <text>OST</text>
+          </view>
+        </view>
+        <view class="content-info-portal">
+          <view>
+            <image src="/images/歌手.svg" />
+            <text>歌手</text>
+          </view>
+          <view>
+            <image src="/images/中国风折扇.svg" />
+            <text>国风</text>
+          </view>
+          <view>
+            <image src="/images/麦克风.svg" />
+            <text>R&B</text>
+          </view>
+          <view>
+            <image src="/images/vip-fill.svg" />
+            <text>VIP</text>
+          </view>
+        </view>
+        
+        <!-- 热门音乐 -->
+        <view class="content-info-list">
+          <view class="list-title">推荐歌曲</view>
+          <view class="list-inner">
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>紫罗兰</view>
+            </view>
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>五月之歌</view>
+            </view>
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>菩提树</view>
+            </view>
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>欢乐颂</view>
+            </view>
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>安魂曲</view>
+            </view>
+            <view class="list-item">
+              <image src="/images/cover.jpg" />
+              <view>摇篮曲</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <!-- 播放器页面 -->
+      <include src="play.wxml" />
+    </swiper-item>
+    <swiper-item>
+      <include src="playlist.wxml" />
+    </swiper-item>
+  </swiper>
+</view>
+
+<!-- 底部播放器 -->
+<view class="player" wx:if="{{item !== 1}}">
+  <image class="player-cover" src="{{play.coverImgUrl}}" style="animation-play-state: {{state}};"
+  bindtap="play" />
+  <view class="player-info">
+    <view class="player-info-title">{{play.title}}</view>
+    <view class="player-info-singer">{{play.singer}}</view>
+  </view>
+  <view class="player-controls">
+    <!-- 切换到播放列表 -->
+    <image src="/images/播放列表.svg"  bindtap="changeItem" data-item="2" />
+    <!-- 播放或暂停 -->
+    <image wx:if="{{state=='paused'}}" src="/images/播放.svg" bindtap="play" />
+    <image wx:else src="/images/暂停.svg" bindtap="pause" />
+    <!-- 下一曲 -->
+    <image src="/images/icon_下一首.svg" bindtap="next" />
+  </view>
+</view>
+
+<!-- 播放器页面专用底部播放器 -->
+<view class="player-page-controls" wx:else>
+  <!-- 播放模式按钮 -->
+  <view class="play-mode-btn" bindtap="togglePlayMode">
+    <image src="/images/{{playModeIcon}}.svg" />
+  </view>
+  <!-- 上一首 -->
+  <image src="/images/icon_下一首.svg" bindtap="prev" style="transform: rotate(180deg);"/>
+  <!-- 播放或暂停 -->
+  <image wx:if="{{state=='paused'}}" src="/images/播放.svg" bindtap="play" />
+  <image wx:else src="/images/暂停.svg" bindtap="pause" />
+  <!-- 下一首 -->
+  <image src="/images/icon_下一首.svg" bindtap="next" />
+</view>
+
+<!-- 标签页标题 -->
+<view class="tab">
+  <view class="tab-item {{tab==0?'active':''}}" bindtap="changeItem" data-item="0">推荐</view>
+  <view class="tab-item {{tab==1?'active':''}}" bindtap="changeItem" data-item="1">播放器</view>
+  <view class="tab-item {{tab==2?'active':''}}" bindtap="changeItem" data-item="2">播放列表</view>
+</view>

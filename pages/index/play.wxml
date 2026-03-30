@@ -1,0 +1,41 @@
+<!-- 播放器 -->
+<view class="content-play">
+  <!-- 显示音乐信息 -->
+  <view class="content-play-info">
+    <text>{{play.title}}</text>
+    <view>—— {{play.singer}} ——</view>
+  </view>
+  <!-- 显示专辑封面 -->
+  <view class="content-play-cover">
+    <image src="{{play.coverImgUrl}}" style="animation-play-state:{{state}}" />
+  </view>
+
+  <!-- 隐藏取色用的画布 必须存在 -->
+<canvas type="2d" id="colorCanvas" style="width:0;height:0;position:fixed;z-index:-999;"></canvas>
+
+<!-- 全局模糊渐变背景层 -->
+<view class="bg-blur" style="background: {{bgMainColor}};"></view>
+
+  <!-- 歌词区域 -->
+  <scroll-view 
+    scroll-y 
+    scroll-top="{{scrollTop}}" 
+    style="height:250px; text-align:center;"
+    scroll-with-animation
+  >
+    <view wx:for="{{lyricList}}" wx:key="time" 
+      style="height:{{lineHeight}}px; line-height:{{lineHeight}}px;"
+      class="lyric-item {{currentIndex===index ? 'active' : ''}}"
+    >
+      {{item.text}}
+    </view>
+  </scroll-view>
+  <!-- 显示播放进度和时间 -->
+  <view class="content-play-progress">
+    <text>{{play.currentTime}}</text>
+    <view>
+      <slider bindchange="sliderChange" activeColor="rgb(230, 230, 230)" block-size="12" backgroundColor="#666" value="{{play.percent}}" />
+    </view>
+    <text>{{play.duration}}</text>
+  </view>
+</view>

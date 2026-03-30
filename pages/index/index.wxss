@@ -1,0 +1,433 @@
+page {
+  display: flex;
+  flex-direction: column;
+  background: rgb(16, 11, 21);
+  color: #ccc;
+  background-size: cover;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.tab {
+  display: flex;
+}
+
+.tab-item {
+  flex: 1;
+  font-size: 27rpx;
+  text-align: center;
+  line-height: 72rpx;
+  border-bottom: 6rpx solid #3c3c3c;
+  font-family: '华文中宋';
+}
+
+.content {
+  flex: 1;
+  /* padding-bottom: 100rpx; */
+  /* box-sizing: border-box; */
+}
+
+.content > swiper {
+  height: 100%;
+}
+
+
+
+.tab-item.active {
+  color: rgb(246, 244, 251);
+  /* color: #c25b5b; */
+  border-bottom-color: rgb(246, 244, 251);
+}
+
+.content-info {
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+/* 轮播图 */
+
+.content-info-slide {
+  height: 330rpx;
+  margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-wrapper {
+  position: relative;
+  width: 100%;
+  height: 330rpx;
+  margin-bottom: 40rpx;
+}
+
+.content-info-slide image {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+
+/* 指示器视口：限制只看见6个，左下角定位 */
+.dot-view{
+  position:absolute;
+  left:20rpx;
+  bottom:15rpx;
+  width: 220rpx;
+  height:30rpx;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  z-index:999;
+}
+
+/* 横向轨道 滚轮滑动 */
+.dot-track{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+}
+
+/* 默认圆点基础 */
+.dot-item{
+  width:14rpx;
+  height:14rpx;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  margin:0 12rpx;
+  transition:all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 功能按钮 */
+
+.content-info-portal {
+  display: flex;
+  /* margin-top: 30rpx; */
+  margin-bottom: 15px;
+}
+
+.content-info-portal > view {
+  flex: 1;
+  font-size: 10pt;
+  font-family: '方正姚体';
+  text-align: center;
+  border: 1rpx solid rgb(38, 36, 42);
+  border-radius: 5%;
+  background-color: rgb(38, 36, 42);
+  color: rgb(246, 244, 251);
+  margin: 0rpx 20rpx;
+  height: 120rpx;
+}
+
+.content-info-portal image {
+  width: 60rpx;
+  height: 60rpx;
+  display: block;
+  margin: 10rpx auto 10rpx ;
+}
+
+/* 热门音乐 */
+
+.content-info-list {
+  color: rgb(247, 247, 252);
+  font-size: 11pt;
+  margin-top: 50rpx;
+  margin-bottom: 20rpx;
+  font-family: '华文中宋';
+  padding-bottom: 18%;
+}
+
+.content-info-list > .list-title {
+  font-size: 35rpx;
+  margin: 20rpx 35rpx;
+}
+
+.content-info-list > .list-inner {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 20rpx;
+}
+
+.content-info-list > .list-inner > .list-item {
+  flex: 1;
+  margin-bottom: 25rpx;
+}
+
+.content-info-list > .list-inner > .list-item > image {
+  display: block;
+  width: 200rpx;
+  height: 200rpx;
+  margin: 0 auto;
+  border-radius: 10rpx;
+  border: 1rpx solid #555;
+}
+
+.content-info-list > .list-inner > .list-item > view {
+  width: 200rpx;
+  margin: 10rpx auto;
+  font-size: 26rpx;
+}
+
+/* 播放器 */
+
+.content-play {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 90%;
+  /* font-family: '方正姚体'; */
+  font-family: '华文中宋';
+  text-align: center;
+  margin-top: 5%;
+}
+
+.content-play-info {
+  /* color: #888; */
+  font-size: 12pt;
+  margin-top: 3%;
+}
+
+.content-play-info > view {
+  color: #888;
+  font-size: 11pt;
+}
+
+/* 底部播放器 */
+
+.player {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  height: 112rpx;
+  width: 96%;
+  background: #222;
+  border: 1px #222 solid;
+  border-radius: 100rpx 100rpx 100rpx 100rpx;
+  height: 112rpx;
+
+  /* 毛玻璃终极效果 */
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15rpx) saturate(180%);
+  -webkit-backdrop-filter: blur(30rpx) saturate(180%);
+  border-radius: 56rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 10;
+  /* ========== 关键修复：必须加这两行 ========== */
+  position: fixed;
+  bottom: 76rpx;
+  pointer-events: auto;
+}
+
+.player-cover {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100%;
+  border: 2px solid rgb(8, 10, 10);
+
+  /* 核心：图片填满整个圆圈 */
+  object-fit: cover;
+  display: block;
+
+  /* 动画：名称 时长 匀速 无限循环 */
+  animation: rotateImage 10s linear infinite;
+  
+  /* 可选：优化安卓卡顿
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0); */
+}
+
+.player-info {
+  font-family: '华文中宋';
+  /* font-size: 10pt; */
+  flex: 1;
+  font-size: 30rpx;
+  line-height: 38rpx;
+  margin-left: 20rpx;
+  padding-bottom: 8rpx;
+  padding-top: 1%;
+}
+
+.player-info-title {
+  font-size: 32rpx;
+  line-height: 40rpx;
+  font-weight: 600;
+}
+
+.player-info-singer {
+  font-size: 26rpx;
+  line-height: 45rpx;
+  color: #acacac;
+}
+
+.player-controls image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 30rpx;
+  margin-top: 2%;
+}
+
+/* 播放器页面专用底部播放器 */
+.player-page-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 130rpx;
+  width: 96%;
+  background: rgba(104, 104, 104, 0.1);
+  backdrop-filter: blur(15rpx) saturate(180%);
+  -webkit-backdrop-filter: blur(30rpx) saturate(180%);
+  border-radius: 100rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.2);
+  /* margin: auto; */
+  box-sizing: border-box;
+  z-index: 10;
+  position: fixed;
+  bottom: 76rpx;
+  pointer-events: auto;
+}
+
+.player-page-controls image {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 0 30rpx;
+}
+
+.play-mode-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10rpx;
+}
+
+.play-mode-btn image {
+  width: 60rpx;
+  height: 60rpx;
+  margin: 0;
+}
+
+/* 播放列表 */
+
+
+.content-play-cover image {
+  animation: rotateImage 10s linear infinite;
+  width: 400rpx;
+  height: 400rpx;
+  border-radius: 100%;
+  border: 1px solid #333;
+}
+
+@keyframes rotateImage {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 播放进度和时间 */
+
+.content-play-progress {
+  display: flex;
+  align-items: center;
+  margin: 0 35rpx;
+  font-size: 9pt;
+  text-align: center;
+}
+
+.content-play-progress > view {
+  flex: 1;
+}
+
+/* 播放列表 */
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid rgb(16, 11, 21);
+  height: 112rpx;
+}
+
+/* 高亮（选中/正在播放）样式 */
+.playlist-item.active {
+  background-color: rgb(39, 37, 41); /* 主色高亮 */
+  color: rgb(230, 230, 230);
+  font-weight: 500;
+}
+
+.playlist-cover {
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: 15rpx;
+  border-radius: 8rpx;
+  border: 1px solid #333;
+}
+
+.playlist-info {
+  flex: 1;
+  font-size: 10pt;
+  line-height: 38rpx;
+  margin-left: 20rpx;
+  padding-bottom: 8rpx;
+}
+
+
+.playlist-info-singer {
+  color: #888;
+}
+
+.playlist-controls {
+  font-size: 10pt;
+  margin-right: 20rpx;
+  color: rgb(230, 230, 230);
+}
+
+.content-playlist {
+  padding-top: 6%;
+  background-color: rgb(16, 11, 21);
+}
+
+/* 对应 WXSS */
+/* .lyric-scroll {
+   height: 600rpx; */
+    /* margin: 20rpx 0; 
+}
+*/
+
+.lyric-item{
+  font-size:32rpx;
+  color:#999;
+  text-align:center;
+  transition: all 0.3s;
+}
+/* 当前播放高亮：变白、放大、加粗 */
+.lyric-item.active{
+  color:#ffffff;
+  font-size:38rpx;
+  font-weight:bold;
+}
+
+/* 全局底层主色背景 + 全屏覆盖 */
+.bg-blur{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  /* 模糊+深色渐变蒙层，防止颜色太刺眼 */
+  filter: blur(25rpx) brightness(0.7);
+  opacity: 0.85;
+}
