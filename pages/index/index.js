@@ -17,6 +17,8 @@ Page({
 
     state: 'paused',
     bgMainColor: "#222222", // 默认兜底背景色
+    contrastColor: "#ffffff", // 高对比度前景色
+    lyricDimColor: "rgba(255,255,255,0.5)", // 歌词淡化色
     
     // 播放模式：random(随机播放), sequence(顺序播放), single(单曲循环)
     playMode: 'sequence',
@@ -35,28 +37,28 @@ Page({
       singer: '张信哲',
       src: 'http://localhost:3000/music/Jeff Chang - 愛就一個字.m4a',
       coverImgUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/9b/84/7c/9b847cfa-fb3e-7ed0-fa67-2180a0c409ba/4716331013621.jpg/300x300bb.jpg',
-      lrcUrl: 'http://localhost:3000/lrc/1167460613.lrc'
+      lrcUrl: 'http://localhost:3000/lrc/Jeff Chang - 愛就一個字.lrc'
     }, {
       id: 2,
-      title: '奏鸣曲',
-      singer: '莫扎特',
-      src: 'http://localhost:3000/2.mp3',
-      coverImgUrl: '/images/cover.jpg',
-      lrcUrl: ''
+      title: "Nothing's Gonna Change My Love for You",
+      singer: 'George Benson',
+      src: "http://localhost:3000/music/George Benson - Nothing's Gonna Change My Love for You.mp3",
+      coverImgUrl: 'https://p3.music.126.net/tds001mQz4CkkGajAzh1IQ==/109951163903775215.jpg',
+      lrcUrl: "http://localhost:3000/lrc/George Benson - Nothing's Gonna Change My Love for You.lrc"
     }, {
       id: 3,
-      title: '欢乐颂',
-      singer: '贝多芬',
-      src: 'http://localhost:3000/1.mp3',
-      coverImgUrl: '/images/cover.jpg',
-      lrcUrl: ''
+      title: '青苹果乐园',
+      singer: '小虎队',
+      src: 'http://localhost:3000/music/小虎队 - 青苹果乐园.mp3',
+      coverImgUrl: 'https://p3.music.126.net/s_71yG6rMSyxEbhhnrrG8w==/109951172027755684.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/小虎队 - 青苹果乐园.lrc'
     }, {
       id: 4,
-      title: '爱之梦',
-      singer: '李斯特',
-      src: 'http://localhost:3000/2.mp3',
-      coverImgUrl: '/images/cover.jpg',
-      lrcUrl: ''
+      title: '日夕回味',
+      singer: '林姗姗',
+      src: 'http://localhost:3000/music/林姗姗 - 日夕回味.mp3',
+      coverImgUrl: 'https://p3.music.126.net/WIsoeHHkUpRKGPgQIm-kew==/109951163941164048.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/林姗姗 - 日夕回味.lrc'
     }],
     state: 'paused',
     playIndex: 0,
@@ -71,7 +73,37 @@ Page({
     lyricList: [],
     currentIndex: -1,
     scrollTop: 0,
-    lineHeight: 50
+    scrollLeft: 0,
+    lineHeight: 50,
+    lyricFontSize: 32,
+    shouldScrollTitle: false
+  },
+
+  checkTitleScroll(title) {
+    const query = wx.createSelectorQuery();
+    query.select('.title-scroll').boundingClientRect();
+    query.select('.title-text').boundingClientRect();
+    query.exec((res) => {
+      console.log('title-scroll check:', res);
+      if (res[0] && res[1]) {
+        const containerWidth = res[0].width;
+        const textWidth = res[1].width;
+        console.log('containerWidth:', containerWidth, 'textWidth:', textWidth);
+        this.setData({ shouldScrollTitle: textWidth > containerWidth });
+      }
+    });
+  },
+
+  // 根据背景色计算高对比度前景色
+  getContrastColor(bgColor) {
+    const hex = bgColor.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const contrast = luminance > 0.5 ? '#000000' : '#ffffff';
+    const dim = luminance > 0.5 ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)';
+    return { contrast, dim };
   },
 
   // 根据图片url 获取画面显眼主色调
@@ -169,9 +201,19 @@ rgbToHex(r,g,b){
 
       const time = parseInt(m[1]) * 60 + parseFloat(m[2] + '.' + m[3]);
       const text = line.replace(reg, '').trim();
-      if (text) list.push({ time, text });
+      if (!text) continue;
+
+      const { chinese, english } = this.splitChineseEnglish(text);
+      list.push({ time, chinese, english });
     }
     return list;
+  },
+
+  // 分离中英文（保留空格和标点）
+  splitChineseEnglish(text) {
+    const chinese = text.match(/[\u4e00-\u9fa5]+/g) ? text.match(/[\u4e00-\u9fa5]+/g).join('') : '';
+    const english = text.replace(/[\u4e00-\u9fa5]+/g, '').trim();
+    return { chinese, english };
   },
 
   swiperChange(e){
@@ -277,7 +319,8 @@ rgbToHex(r,g,b){
     
       that.setData({
         currentIndex: targetIndex,
-        scrollTop: scrollTop
+        scrollTop: scrollTop,
+        scrollLeft: 0
       });
     });
 
@@ -303,8 +346,11 @@ rgbToHex(r,g,b){
       'play.percent': 0
     });
 
+    setTimeout(() => this.checkTitleScroll(), 200);
+
     this.getCoverMainColor(music.coverImgUrl).then(color => {
-      this.setData({ bgMainColor: color })
+      const { contrast, dim } = this.getContrastColor(color);
+      this.setData({ bgMainColor: color, contrastColor: contrast, lyricDimColor: dim });
     })
   },
 

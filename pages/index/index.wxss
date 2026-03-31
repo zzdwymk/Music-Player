@@ -31,13 +31,6 @@ page {
   height: 100%;
 }
 
-.player {
-  background: #222;
-  border: 1px #222 solid;
-  border-radius: 100rpx 100rpx 100rpx 100rpx;
-  height: 112rpx;
-}
-
 .tab-item.active {
   color: rgb(246, 244, 251);
   /* color: #c25b5b; */
@@ -194,9 +187,11 @@ page {
   /* color: #888; */
   font-size: 12pt;
   margin-top: 40rpx;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .content-play-info > view {
+  margin-top: 10rpx;
   color: #888;
   font-size: 11pt;
 }
@@ -231,8 +226,8 @@ page {
   height: 100rpx;
   border-radius: 100%;
   border: 2px solid rgb(8, 10, 10);
+  margin-top: 107rpx;
   margin-left: 56rpx;
-  margin-top: 108.6rpx;
 
   /* 核心：图片填满整个圆圈 */
   object-fit: cover;
@@ -261,6 +256,44 @@ page {
   font-size: 32rpx;
   line-height: 40rpx;
   font-weight: 600;
+}
+
+.title-scroll {
+  width: 300rpx;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.title-text, .singer-text {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.title-text {
+  font-size: 32rpx;
+  line-height: 40rpx;
+  font-weight: 600;
+}
+
+.singer-text {
+  font-size: 26rpx;
+  line-height: 40rpx;
+  color: #acacac;
+}
+
+.title-scroll-singer {
+  width: 250rpx;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.scroll-animate {
+  animation: scroll-left 8s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(300rpx); }
+  100% { transform: translateX(-800rpx); }
 }
 
 .player-info-singer {
@@ -295,6 +328,29 @@ page {
   position: fixed;
   bottom: 25rpx;
   pointer-events: auto;
+}
+
+.player-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 60rpx;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.player-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(51, 51, 51, 0.2) 0%, rgba(196, 196, 196, 0.3) 100%);
+  border-radius: 60rpx;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  transition: width 0.3s ease;
 }
 
 /* 播放器控制遮罩层 */
@@ -572,8 +628,9 @@ page {
 }
 
 /* 高亮（选中/正在播放）样式 */
-.playlist-item.active {
-  background-color: rgb(39, 37, 41); /* 主色高亮 */
+.playlist-item.active,
+.playlist-item.playing {
+  background-color: rgb(79, 75, 83);
   color: rgb(230, 230, 230);
   font-weight: 500;
 }
@@ -593,7 +650,6 @@ page {
   margin-left: 20rpx;
   padding-bottom: 8rpx;
 }
-
 
 .playlist-info-singer {
   color: #888;
@@ -622,12 +678,32 @@ page {
   color:#999;
   text-align:center;
   transition: all 0.3s;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  padding: 0 20rpx;
+  box-sizing: border-box;
 }
-/* 当前播放高亮：变白、放大、加粗 */
-.lyric-item.active{
-  color:#ffffff;
-  font-size:38rpx;
-  font-weight:bold;
+
+.lyric-item::-webkit-scrollbar {
+  display: none;
+}
+
+/* 当前播放高亮 */
+.lyric-item.active .lyric-cn {
+  font-family: '华文中宋', 'STKaiti', 'STSong', 'SimSun', sans-serif;
+}
+
+.lyric-item.active .lyric-en {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.lyric-cn {
+  font-family: '华文中宋', 'STKaiti', 'STSong', 'SimSun', sans-serif;
+}
+
+.lyric-en {
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* 全局底层主色背景 + 全屏覆盖 */
