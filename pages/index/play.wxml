@@ -28,7 +28,7 @@
       style="height:{{lineHeight}}px; line-height:{{lineHeight}}px; color:{{currentIndex===index ? contrastColor : lyricDimColor}}; font-size:{{currentIndex===index ? '38rpx' : '32rpx'}}; font-weight:{{currentIndex===index ? 'bold' : 'normal'}};"
       class="lyric-item {{currentIndex===index ? 'active' : ''}}"
     >
-      <text wx:for="{{item.parts}}" wx:for-item="part" wx:key="{{$index}}" class="{{part.isChinese ? 'lyric-cn' : 'lyric-en'}}">{{part.text}}</text>
+      <text wx:for="{{item.parts}}" wx:for-item="part" wx:key="$index" class="{{part.isChinese ? 'lyric-cn' : 'lyric-en'}}">{{part.text}}</text>
     </view>
   </scroll-view>
   <!-- 显示播放进度和时间 -->
@@ -41,46 +41,46 @@
   </view>
 
   <!-- 播放器页面专用底部播放器 -->
-  <view class="player-page-controls">
+  <view class="player-page-controls" style="background: {{controlsBg}}; border: {{controlsBorder}}; box-shadow: {{controlsShadow}};">
     <!-- 进度条 -->
     <view class="player-progress-bar">
       <view class="player-progress-fill" style="width: {{play.percent}}%;"></view>
     </view>
     <!-- 播放模式按钮 -->
     <view class="play-mode-btn {{showPlayModeMenu ? 'active' : ''}}" catchtap="togglePlayModeMenu">
-      <image src="/images/{{playModeIcon}}.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image src="{{playModeBtnSvg}}" />
     </view>
     <!-- 播放模式下拉菜单 -->
     <view class="play-mode-menu {{showPlayModeMenu ? 'show' : ''}}" style="background-color: {{bgMainColor}};">
       <view class="play-mode-item {{playMode === 'sequence' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="sequence">
-        <image src="/images/顺序播放.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+        <image src="{{sequenceModeSvg}}" />
         <text style="color:{{contrastColor}};">顺序播放</text>
       </view>
       <view class="play-mode-item {{playMode === 'random' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="random">
-        <image src="/images/随机播放.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+        <image src="{{randomModeSvg}}" />
         <text style="color:{{contrastColor}};">随机播放</text>
       </view>
       <view class="play-mode-item {{playMode === 'single' ? 'active' : ''}}" catchtap="selectPlayMode" data-mode="single">
-        <image src="/images/单曲循环.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+        <image src="{{singleModeSvg}}" />
         <text style="color:{{contrastColor}};">单曲循环</text>
       </view>
     </view>
     <!-- 上一首 -->
     <view class="control-btn" catchtap="prev" hover-class="control-btn-hover">
-      <image class="prev-btn" src="/images/icon_下一首.svg" catchtap="prev" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image class="prev-btn" src="{{prevIconSvg}}" catchtap="prev" />
     </view>
     <!-- 播放或暂停 -->
     <view class="control-btn" catchtap="play">
-      <image class="play-btn" wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
-      <image class="play-btn" wx:else src="/images/暂停.svg" catchtap="pause" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image class="play-btn" wx:if="{{state === 'paused'}}" src="{{playIconSvg}}" catchtap="play" />
+      <image class="play-btn" wx:else src="{{pauseIconSvg}}" catchtap="pause" />
     </view>
     <!-- 下一首 -->
     <view class="control-btn" catchtap="next" hover-class="control-btn-hover">
-      <image class="next-btn" src="/images/icon_下一首.svg" catchtap="next" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image class="next-btn" src="{{nextIconSvg}}" catchtap="next" />
     </view>
     <!-- 歌词切换 -->
     <view class="lyric-toggle-btn {{showLyric ? 'active' : ''}}" catchtap="toggleLyric">
-      <image src="/images/歌词.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image src="{{lyricIconSvg}}" />
     </view>
   </view>
 </view>

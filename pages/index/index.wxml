@@ -85,8 +85,8 @@
             <text>原创</text>
           </view>
           <view>
-            <image src="/images/vip-fill.svg" />
-            <text>VIP</text>
+            <image src="/images/情歌.svg" />
+            <text>情歌</text>
           </view>
         </view>
         
@@ -161,7 +161,6 @@
     <image src="/images/icon_下一首.svg" catchtap="next" />
   </view>
 </view>
-
 <!-- 标签页标题 -->
 <view class="tab">
   <view class="tab-item {{tab==0?'active':''}}" bindtap="changeItem" data-item="0" style="color:{{tab==1 ? contrastColor : 'inherit'}};">推荐</view>

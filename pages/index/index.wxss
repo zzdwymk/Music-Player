@@ -469,16 +469,6 @@ page {
   filter: brightness(1.5);
 }
 
-.control-btn-hover {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 50rpx rgba(255, 255, 255, 0.3);
-}
-
-.control-btn-hover {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 50rpx rgba(255, 255, 255, 0.3);
-}
-
 .prev-btn, .next-btn {
   width: 55rpx;
   height: 55rpx;
@@ -492,7 +482,13 @@ page {
 }
 
 .prev-btn:active {
-  transform: rotate(180deg) scale(0.95);
+  transform: rotate(180deg) scale(0.85);
+  opacity: 0.7;
+}
+
+.next-btn:active {
+  transform: scale(0.85);
+  opacity: 0.7;
 }
 
 /* 播放/暂停按钮 - 突出显示 */
@@ -557,7 +553,7 @@ page {
   height: 100%;
   background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 50%, #1a1a1a 100%);
   border-radius: 50%;
-  box-shadow: 0 0 60rpx rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 160rpx rgba(0, 0, 0, 0.6);
 }
 
 .vinyl-record::before {
