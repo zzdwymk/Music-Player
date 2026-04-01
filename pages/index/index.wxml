@@ -95,28 +95,40 @@
           <view class="list-title">推荐歌曲</view>
           <view class="list-inner">
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>紫罗兰</view>
+              <image src="https://p3.music.126.net/BwvRPgzjBm65ipWNsOpqbw==/109951166198221057.jpg" />
+              <view>時に愛は</view>
             </view>
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>五月之歌</view>
+              <image src="https://p3.music.126.net/cHOZJgBznifZfTT9NwlaWA==/109951170602036713.jpg" />
+              <view>安妮</view>
             </view>
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>菩提树</view>
+              <image src="https://p3.music.126.net/h6oZNyUgMuyarJOYMO8uxg==/109951166655546649.jpg" />
+              <view>不必勉强</view>
             </view>
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>欢乐颂</view>
+              <image src="https://p3.music.126.net/XR9uOchiC1jtxypqqcEctQ==/109951169976421500.jpg" />
+              <view>レイニーブルー</view>
             </view>
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>安魂曲</view>
+              <image src="https://p3.music.126.net/3pgRf5zaReXpQySFqOTFaw==/109951170927813358.jpg" />
+              <view>LUV</view>
             </view>
             <view class="list-item">
-              <image src="/images/cover.jpg" />
-              <view>摇篮曲</view>
+              <image src="https://p3.music.126.net/WIsoeHHkUpRKGPgQIm-kew==/109951163941164048.jpg" />
+              <view>日夕回味</view>
+            </view>
+            <view class="list-item">
+              <image src="https://p3.music.126.net/s_71yG6rMSyxEbhhnrrG8w==/109951172027755684.jpg" />
+              <view>青苹果乐园</view>
+            </view>
+            <view class="list-item">
+              <image src="https://p3.music.126.net/tds001mQz4CkkGajAzh1IQ==/109951163903775215.jpg" />
+              <view>Nothing's Gonna Change My Love for You</view>
+            </view>
+            <view class="list-item">
+              <image src="https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/9b/84/7c/9b847cfa-fb3e-7ed0-fa67-2180a0c409ba/4716331013621.jpg/300x300bb.jpg" />
+              <view>爱就一个字</view>
             </view>
           </view>
         </view>
@@ -152,7 +164,7 @@
 
 <!-- 标签页标题 -->
 <view class="tab">
-  <view class="tab-item {{tab==0?'active':''}}" bindtap="changeItem" data-item="0">推荐</view>
-  <view class="tab-item {{tab==1?'active':''}}" bindtap="changeItem" data-item="1">播放器</view>
-  <view class="tab-item {{tab==2?'active':''}}" bindtap="changeItem" data-item="2">播放列表</view>
+  <view class="tab-item {{tab==0?'active':''}}" bindtap="changeItem" data-item="0" style="color:{{tab==1 ? contrastColor : 'inherit'}};">推荐</view>
+  <view class="tab-item {{tab==1?'active':''}}" bindtap="changeItem" data-item="1" style="color:{{tab==1 ? contrastColor : 'inherit'}}; border-bottom-color:{{tab==1 ? contrastColor : 'transparent'}};">播放器</view>
+  <view class="tab-item {{tab==2?'active':''}}" bindtap="changeItem" data-item="2" style="color:{{tab==1 ? contrastColor : 'inherit'}};">播放列表</view>
 </view>

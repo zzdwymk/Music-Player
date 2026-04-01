@@ -28,14 +28,14 @@
       style="height:{{lineHeight}}px; line-height:{{lineHeight}}px; color:{{currentIndex===index ? contrastColor : lyricDimColor}}; font-size:{{currentIndex===index ? '38rpx' : '32rpx'}}; font-weight:{{currentIndex===index ? 'bold' : 'normal'}};"
       class="lyric-item {{currentIndex===index ? 'active' : ''}}"
     >
-      <text class="lyric-cn">{{item.chinese}}</text><text class="lyric-en">{{item.english}}</text>
+      <text wx:for="{{item.parts}}" wx:for-item="part" wx:key="{{$index}}" class="{{part.isChinese ? 'lyric-cn' : 'lyric-en'}}">{{part.text}}</text>
     </view>
   </scroll-view>
   <!-- 显示播放进度和时间 -->
   <view class="content-play-progress" style="color:{{contrastColor}};">
     <text style="color:{{contrastColor}};">{{play.currentTime}}</text>
     <view>
-      <slider bindchange="sliderChange" activeColor="rgb(230, 230, 230)" block-size="12" backgroundColor="#666" value="{{play.percent}}" />
+      <slider bindchange="sliderChange" activeColor="{{contrastColor}}" block-size="12" backgroundColor="{{lyricDimColor}}" value="{{play.percent}}" />
     </view>
     <text style="color:{{contrastColor}};">{{play.duration}}</text>
   </view>
@@ -48,7 +48,7 @@
     </view>
     <!-- 播放模式按钮 -->
     <view class="play-mode-btn {{showPlayModeMenu ? 'active' : ''}}" catchtap="togglePlayModeMenu">
-      <image src="/images/{{playModeIcon}}.svg" />
+      <image src="/images/{{playModeIcon}}.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
     </view>
     <!-- 播放模式下拉菜单 -->
     <view class="play-mode-menu {{showPlayModeMenu ? 'show' : ''}}" style="background-color: {{bgMainColor}};">
@@ -66,15 +66,21 @@
       </view>
     </view>
     <!-- 上一首 -->
-    <image class="prev-btn" src="/images/icon_下一首.svg" catchtap="prev" />
+    <view class="control-btn" catchtap="prev" hover-class="control-btn-hover">
+      <image class="prev-btn" src="/images/icon_下一首.svg" catchtap="prev" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+    </view>
     <!-- 播放或暂停 -->
-    <image class="play-btn" wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" />
-    <image class="play-btn" wx:else src="/images/暂停.svg" catchtap="pause" />
+    <view class="control-btn" catchtap="play">
+      <image class="play-btn" wx:if="{{state=='paused'}}" src="/images/播放.svg" catchtap="play" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+      <image class="play-btn" wx:else src="/images/暂停.svg" catchtap="pause" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+    </view>
     <!-- 下一首 -->
-    <image class="next-btn" src="/images/icon_下一首.svg" catchtap="next" />
+    <view class="control-btn" catchtap="next" hover-class="control-btn-hover">
+      <image class="next-btn" src="/images/icon_下一首.svg" catchtap="next" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
+    </view>
     <!-- 歌词切换 -->
     <view class="lyric-toggle-btn {{showLyric ? 'active' : ''}}" catchtap="toggleLyric">
-      <image src="/images/歌词.svg" />
+      <image src="/images/歌词.svg" style="filter:{{contrastColor === '#ffffff' ? 'brightness(0) invert(1)' : 'none'}};" />
     </view>
   </view>
 </view>

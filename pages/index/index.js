@@ -19,6 +19,7 @@ Page({
     bgMainColor: "#222222", // 默认兜底背景色
     contrastColor: "#ffffff", // 高对比度前景色
     lyricDimColor: "rgba(255,255,255,0.5)", // 歌词淡化色
+    btnBgColor: "rgba(255,255,255,0.15)", // 按钮背景色
     
     // 播放模式：random(随机播放), sequence(顺序播放), single(单曲循环)
     playMode: 'sequence',
@@ -59,6 +60,69 @@ Page({
       src: 'http://localhost:3000/music/林姗姗 - 日夕回味.mp3',
       coverImgUrl: 'https://p3.music.126.net/WIsoeHHkUpRKGPgQIm-kew==/109951163941164048.jpg',
       lrcUrl: 'http://localhost:3000/lrc/林姗姗 - 日夕回味.lrc'
+    }, {
+      id: 5,
+      title: 'LUV',
+      singer: 'Apink',
+      src: 'http://localhost:3000/music/Apink - LUV.mp3',
+      coverImgUrl: 'https://p3.music.126.net/3pgRf5zaReXpQySFqOTFaw==/109951170927813358.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/Apink - LUV.lrc'
+    }, {
+      id: 6,
+      title: 'レイニーブルー',
+      singer: '德永英明',
+      src: 'http://localhost:3000/music/德永英明 - レイニーブルー.mp3',
+      coverImgUrl: 'https://p3.music.126.net/XR9uOchiC1jtxypqqcEctQ==/109951169976421500.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/德永英明 - レイニーブルー.lrc'
+    }, {
+      id: 7,
+      title: '最爱',
+      singer: '周慧敏',
+      src: 'http://localhost:3000/music/周慧敏 - 最爱.mp3',
+      coverImgUrl: 'https://p3.music.126.net/Sw5YcfgqO7V4IVq306hL8w==/109951166563037658.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/周慧敏 - 最爱.lrc'
+    }, {
+      id: 8,
+      title: '不必勉强',
+      singer: '齐秦',
+      src: 'http://localhost:3000/music/齐秦 - 不必勉强.mp3',
+      coverImgUrl: 'https://p3.music.126.net/h6oZNyUgMuyarJOYMO8uxg==/109951166655546649.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/齐秦 - 不必勉强.lrc'
+    }, {
+      id: 9,
+      title: '時に愛は',
+      singer: '小田和正',
+      src: 'http://localhost:3000/music/小田和正 - 時に愛は.mp3',
+      coverImgUrl: 'https://p3.music.126.net/BwvRPgzjBm65ipWNsOpqbw==/109951166198221057.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/小田和正 - 時に愛は.lrc'
+    }, {
+      id: 10,
+      title: '安妮',
+      singer: '王杰',
+      src: 'http://localhost:3000/music/王杰 - 安妮.mp3',
+      coverImgUrl: 'https://p3.music.126.net/cHOZJgBznifZfTT9NwlaWA==/109951170602036713.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/王杰 - 安妮.lrc'
+    }, {
+      id: 11,
+      title: '口是心非',
+      singer: '张雨生',
+      src: 'http://localhost:3000/music/张雨生 - 口是心非.mp3',
+      coverImgUrl: 'https://p3.music.126.net/1Agq_8L-YdAtr56DaZz1ng==/109951172325720333.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/张雨生 - 口是心非.lrc'
+    }, {
+      id: 12,
+      title: '无名份的浪漫',
+      singer: '黎明',
+      src: 'http://localhost:3000/music/黎明 - 无名份的浪漫.mp3',
+      coverImgUrl: 'https://p3.music.126.net/thXkupdKJtuSswDv4u-sow==/68169720928612.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/黎明 - 无名份的浪漫.lrc'
+    }, {
+      id: 13,
+      title: '月半小夜曲',
+      singer: '李克勤',
+      src: 'http://localhost:3000/music/李克勤 - 月半小夜曲.mp3',
+      coverImgUrl: 'https://p3.music.126.net/SIFuIDfMNbuY9-IQcbTz5w==/109951166890517973.jpg',
+      lrcUrl: 'http://localhost:3000/lrc/李克勤 - 月半小夜曲.lrc'
     }],
     state: 'paused',
     playIndex: 0,
@@ -103,7 +167,8 @@ Page({
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
     const contrast = luminance > 0.5 ? '#000000' : '#ffffff';
     const dim = luminance > 0.5 ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)';
-    return { contrast, dim };
+    const btnBg = luminance > 0.5 ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
+    return { contrast, dim, btnBg };
   },
 
   // 根据图片url 获取画面显眼主色调
@@ -125,11 +190,11 @@ getCoverMainColor(imgUrl) {
       img.src = imgUrl;
       img.onload = () => {
         // 缩小绘制，提升取色速度
-        canvas.width = 80;
-        canvas.height = 80;
-        ctx.drawImage(img,0,0,80,80);
+        canvas.width = 20;
+        canvas.height = 20;
+        ctx.drawImage(img,0,0,50,50);
         // 获取像素数据
-        const imgData = ctx.getImageData(0,0,80,80).data;
+        const imgData = ctx.getImageData(0,0,20,20).data;
         let colorMap = {};
         let maxCount = 0;
         let mainR = 80,mainG=80,mainB=80;
@@ -203,17 +268,24 @@ rgbToHex(r,g,b){
       const text = line.replace(reg, '').trim();
       if (!text) continue;
 
-      const { chinese, english } = this.splitChineseEnglish(text);
-      list.push({ time, chinese, english });
+      const parts = this.splitChineseEnglish(text);
+      list.push({ time, parts });
     }
     return list;
   },
 
-  // 分离中英文（保留空格和标点）
+  // 分离中英文（保留原始顺序）
   splitChineseEnglish(text) {
-    const chinese = text.match(/[\u4e00-\u9fa5]+/g) ? text.match(/[\u4e00-\u9fa5]+/g).join('') : '';
-    const english = text.replace(/[\u4e00-\u9fa5]+/g, '').trim();
-    return { chinese, english };
+    const parts = [];
+    const regex = /[\u4e00-\u9fa5]+|[^\u4e00-\u9fa5]+/g;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      parts.push({
+        text: match[0],
+        isChinese: /[\u4e00-\u9fa5]/.test(match[0])
+      });
+    }
+    return parts;
   },
 
   swiperChange(e){
@@ -349,8 +421,8 @@ rgbToHex(r,g,b){
     setTimeout(() => this.checkTitleScroll(), 200);
 
     this.getCoverMainColor(music.coverImgUrl).then(color => {
-      const { contrast, dim } = this.getContrastColor(color);
-      this.setData({ bgMainColor: color, contrastColor: contrast, lyricDimColor: dim });
+      const { contrast, dim, btnBg } = this.getContrastColor(color);
+      this.setData({ bgMainColor: color, contrastColor: contrast, lyricDimColor: dim, btnBgColor: btnBg });
     })
   },
 
